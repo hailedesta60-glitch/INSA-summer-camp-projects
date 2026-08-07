@@ -4,9 +4,15 @@ import '../screens/home/home_screen.dart';
 import '../screens/details/product_detail_page.dart';
 import '../screens/cart/cart_page.dart';
 import '../screens/profile/profile_page.dart';
+import '../screens/auth/login_page.dart';
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      builder: (context, state) => const LoginPage(),
+    ),
     GoRoute(
       path: '/profile',
       name: 'profile',
