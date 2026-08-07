@@ -21,6 +21,12 @@ class HomePage extends ConsumerWidget {
         context.push('/cart');
       },
     ),
+    IconButton(
+      icon: const Icon(Icons.person_outline),
+      onPressed: () {
+        context.push('/profile');
+      },
+    ),
   ],
       ),
       body: productsAsync.when(
