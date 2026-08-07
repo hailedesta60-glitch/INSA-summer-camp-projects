@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/network/http_client.dart';
-import 'services/product_service.dart';
+import 'providers/product_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,52 +18,49 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const TestPage(),
+      title: 'Fake Store',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
     );
   }
 }
 
-class TestPage extends StatefulWidget {
-  const TestPage({super.key});
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
 
   @override
-  State<TestPage> createState() => _TestPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsAsync = ref.watch(productsProvider);
 
-class _TestPageState extends State<TestPage> {
-  final ProductService _productService =
-      ProductService(HttpClient());
-
-  String message = 'Loading...';
-
-  @override
-  void initState() {
-    super.initState();
-    loadProducts();
-  }
-
-  Future<void> loadProducts() async {
-    try {
-      final products = await _productService.getProducts();
-
-      setState(() {
-        message = 'Loaded ${products.length} products';
-      });
-    } catch (e) {
-      setState(() {
-        message = 'Error: $e';
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('API Test'),
+        title: const Text('Fake Store'),
       ),
-      body: Center(
-        child: Text(message),
+      body: productsAsync.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stackTrace) => Center(
+          child: Text('Error: $error'),
+        ),
+        data: (products) {
+          return ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return ListTile(
+                title: Text(product.title),
+                subtitle: Text('\$${product.price}'),
+              );
+            },
+          );
+        },
       ),
     );
   }
