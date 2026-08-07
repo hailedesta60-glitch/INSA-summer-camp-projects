@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'providers/product_provider.dart';
+import '../../screens/home/home_screen.dart';
 
 void main() {
   runApp(
@@ -26,42 +26,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final productsAsync = ref.watch(productsProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fake Store'),
-      ),
-      body: productsAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
-        ),
-        data: (products) {
-          return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-
-              return ListTile(
-                title: Text(product.title),
-                subtitle: Text('\$${product.price}'),
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }
