@@ -20,6 +20,10 @@ class HomePage extends ConsumerWidget {
         title: const Text('Fake Store'),
         actions: [
           IconButton(
+        icon: const Icon(Icons.favorite_border),
+        onPressed: () => context.push('/wishlist'),
+                 ),
+          IconButton(
             icon: const Icon(Icons.person_outline),
             onPressed: () => context.push('/profile'),
           ),

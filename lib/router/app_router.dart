@@ -5,9 +5,15 @@ import '../screens/details/product_detail_page.dart';
 import '../screens/cart/cart_page.dart';
 import '../screens/profile/profile_page.dart';
 import '../screens/auth/login_page.dart';
+import '../screens/favorites/favorite_page.dart';
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
+    GoRoute(
+      path: '/wishlist',
+      name: 'wishlist',
+      builder: (context, state) => const WishlistPage(),
+    ),
     GoRoute(
       path: '/login',
       name: 'login',
