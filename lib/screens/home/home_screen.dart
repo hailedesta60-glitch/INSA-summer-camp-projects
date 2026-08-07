@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/product_card.dart';
 
@@ -14,6 +14,14 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Fake Store'),
+        actions: [
+    IconButton(
+      icon: const Icon(Icons.shopping_cart),
+      onPressed: () {
+        context.push('/cart');
+      },
+    ),
+  ],
       ),
       body: productsAsync.when(
         loading: () => const Center(
@@ -38,7 +46,7 @@ class HomePage extends ConsumerWidget {
     return ProductCard(
       product: product,
       onTap: (){
-
+      context.go('/detail',extra:product);
       },
     );
   },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../screens/home/home_screen.dart';
+import 'router/app_router.dart';
 
 void main() {
   runApp(
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Fake Store',
       theme: ThemeData(
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      routerConfig: appRouter,
     );
   }
 }
