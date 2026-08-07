@@ -29,6 +29,10 @@ class CartNotifier extends Notifier<List<CartItem>> {
   void removeItem(int productId) {
     state = state.where((item) => item.product.id != productId).toList();
   }
+  void clearCart() {
+    state = [];
+  }
+
 
   // Calculate total price
   double get totalAmount {

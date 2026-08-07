@@ -70,10 +70,34 @@ class CartPage extends ConsumerWidget {
                         ),
                       ),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                        ),
                         onPressed: () {
-                          // Checkout action
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Checkout feature coming soon!')),
+                          // Show Order Success Dialog & Clear Cart
+                          showDialog(
+                            context: context,
+                            builder: (dialogContext) => AlertDialog(
+                              title: const Text('Order Placed Successfully! 🎉'),
+                              content: const Text(
+                                'Thank you for your purchase. Your order has been placed and is being processed.',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    cartNotifier.clearCart(); // Clear the cart items
+                                    Navigator.pop(dialogContext); // Close dialog
+                                    Navigator.pop(context); // Go back from CartPage
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
                           );
                         },
                         child: const Text('Checkout'),
